@@ -615,44 +615,41 @@
       })
     }
 
-  function submitAnswers(){
+    async function submitAnswers(){
+      answers["Would you go on a date with me this Wednesday?"] = "Yes"
 
-  answers["Would you go on a date with me this Wednesday?"] = "Yes"
+      let message = "📋 Michella's Answers\n\n"
 
-  let message = "📋 Michella's Answers\n\n"
+      for(const key in answers){
+        message += key + "\n➡ " + answers[key] + "\n\n"
+      }
 
-  for(const key in answers){
-    message += key + "\n➡ " + answers[key] + "\n\n"
-  }
+      const TOKEN = "8724648401:AAEbx7IcZzc2fd2ncBi4BwRX-42SW1yWGJw"
+      const CHAT_ID = "7417155452"
 
-  const TOKEN = "8724648401:AAEbx7IcZzc2fd2ncBi4BwRX-42SW1yWGJw"
-  const CHAT_ID = "7417155452"
+      try{
+        await fetch(`https://api.telegram.org/bot8724648401:AAEbx7IcZzc2fd2ncBi4BwRX-42SW1yWGJw/sendMessage`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message
+          })
+        })
 
-  fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      chat_id: CHAT_ID,
-      text: message
-    })
-  })
+        document.getElementById("question").innerText = "Thank you for answering, you're so sweet 😊"
+        document.getElementById("subtext").innerText = ""
 
-  document.getElementById("question").innerText =
-  "Thank you for answering, you're so sweet 😊"
-
-  document.getElementById("subtext").innerText = ""
-
-  document.getElementById("answers").innerHTML = `
-    <div class="thankyou">
-      <div class="emoji">💌</div>
-      <h3>Sent</h3>
-      <p>Your answers are safely on their way.</p>
-    </div>
-  `
-}
-      catch(error){
+        document.getElementById("answers").innerHTML = `
+          <div class="thankyou">
+            <div class="emoji">💌</div>
+            <h3>Sent</h3>
+            <p>Your answers are safely on their way.</p>
+          </div>
+        `
+      } catch(error){
         document.getElementById("question").innerText = "Oops"
         document.getElementById("subtext").innerText = "Something went wrong while sending the answers."
         document.getElementById("answers").innerHTML = `
