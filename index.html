@@ -1,310 +1,665 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Michella</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Michella</title>
 
-<style>
-/* YOUR ENTIRE STYLE BLOCK — UNCHANGED */
-:root{
---bg1:#ffd6e7;
---bg2:#ffe9f2;
---bg3:#f7d8ff;
---card:rgba(255,255,255,0.72);
---card-border:rgba(255,255,255,0.55);
---text:#2f2430;
---muted:#6c5a68;
---primary:#ff5fa2;
---primary-dark:#f54293;
---secondary:#ffffff;
---shadow:0 18px 45px rgba(122,63,97,0.16);
---shadow-soft:0 8px 22px rgba(122,63,97,0.10);
---radius-xl:26px;
-}
+  <style>
+    :root{
+      --bg1:#ffd6e7;
+      --bg2:#ffe9f2;
+      --bg3:#f7d8ff;
+      --card:rgba(255,255,255,0.72);
+      --card-border:rgba(255,255,255,0.55);
+      --text:#2f2430;
+      --muted:#6c5a68;
+      --primary:#ff5fa2;
+      --primary-dark:#f54293;
+      --secondary:#ffffff;
+      --shadow:0 18px 45px rgba(122, 63, 97, 0.16);
+      --shadow-soft:0 8px 22px rgba(122, 63, 97, 0.10);
+      --radius-xl:26px;
+      --radius-lg:16px;
+      --radius-md:12px;
+    }
 
-*{box-sizing:border-box;}
+    *{
+      box-sizing:border-box;
+    }
 
-html,body{
-margin:0;
-padding:0;
-width:100%;
-min-height:100%;
-font-family:Inter,"Segoe UI",Arial,sans-serif;
-color:var(--text);
-}
+    html,body{
+      margin:0;
+      padding:0;
+      width:100%;
+      min-height:100%;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color:var(--text);
+    }
 
-body{
-min-height:100vh;
-overflow:hidden;
-display:flex;
-align-items:center;
-justify-content:center;
-background:
-radial-gradient(circle at top left,rgba(255,255,255,0.65),transparent 30%),
-radial-gradient(circle at bottom right,rgba(255,255,255,0.45),transparent 28%),
-linear-gradient(135deg,var(--bg1),var(--bg2) 45%,var(--bg3));
-padding:20px;
-}
+    body{
+      min-height:100vh;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.65), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.45), transparent 28%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 45%, var(--bg3));
+      padding:20px;
+    }
 
-/* ALL YOUR ORIGINAL CSS REMAINS THE SAME */
-</style>
+    .glow{
+      position:fixed;
+      inset:auto;
+      width:320px;
+      height:320px;
+      border-radius:50%;
+      filter:blur(70px);
+      opacity:0.28;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .glow.one{
+      top:-70px;
+      left:-70px;
+      background:#ff9fc4;
+    }
+
+    .glow.two{
+      right:-90px;
+      bottom:-80px;
+      background:#d9a6ff;
+    }
+
+    #intro,
+    #box{
+      position:relative;
+      z-index:2;
+      width:min(92vw, 520px);
+      border:1px solid var(--card-border);
+      background:var(--card);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius-xl);
+    }
+
+    #intro{
+      padding:42px 30px;
+      text-align:center;
+      animation:fadeUp .6s ease;
+    }
+
+    #intro .badge{
+      display:inline-block;
+      padding:8px 14px;
+      font-size:13px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.72);
+      color:var(--primary-dark);
+      box-shadow:var(--shadow-soft);
+      margin-bottom:18px;
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+
+    #intro h1{
+      margin:0 0 12px;
+      font-size:clamp(30px, 5vw, 42px);
+      line-height:1.05;
+      letter-spacing:-0.03em;
+    }
+
+    #intro p{
+      margin:0 0 28px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.65;
+    }
+
+    #box{
+      display:none;
+      padding:24px 22px 26px;
+      animation:fadeUp .45s ease;
+    }
+
+    .topbar{
+      margin-bottom:22px;
+    }
+
+    .step-label{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+      font-size:13px;
+      color:var(--muted);
+      font-weight:600;
+    }
+
+    #progressContainer{
+      width:100%;
+      height:10px;
+      background:rgba(255,255,255,0.65);
+      border-radius:999px;
+      overflow:hidden;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    #progressBar{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg, #ff74b2, #ff5fa2, #f79ac7);
+      transition:width .35s ease;
+      box-shadow:0 0 18px rgba(255,95,162,0.35);
+    }
+
+    #question{
+      margin:0 0 10px;
+      font-size:clamp(24px, 4vw, 31px);
+      line-height:1.2;
+      letter-spacing:-0.03em;
+    }
+
+    #subtext{
+      margin:0 0 20px;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+    }
+
+    #answers{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      min-height:56px;
+    }
+
+    button{
+      border:none;
+      outline:none;
+      cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease, opacity .18s ease;
+      font-family:inherit;
+    }
+
+    .primary-btn,
+    #answers button{
+      padding:13px 18px;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:600;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .primary-btn{
+      background:linear-gradient(135deg, var(--primary), #ff7cb8);
+      color:white;
+      min-width:190px;
+    }
+
+    .primary-btn:hover,
+    #answers button:hover{
+      transform:translateY(-2px) scale(1.02);
+    }
+
+    #answers button{
+      background:white;
+      color:var(--text);
+      min-width:130px;
+    }
+
+    #answers button:hover{
+      box-shadow:0 12px 24px rgba(122, 63, 97, 0.16);
+    }
+
+    #yesBtn{
+      background:linear-gradient(135deg, var(--primary), #ff7cb8) !important;
+      color:white !important;
+    }
+
+    #noBtn{
+      background:#fff7fb !important;
+      color:#7f5c72 !important;
+    }
+
+    .input-wrap{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+    }
+
+    input{
+      width:min(100%, 360px);
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(179, 143, 166, 0.22);
+      background:rgba(255,255,255,0.92);
+      color:var(--text);
+      font-size:15px;
+      box-shadow:var(--shadow-soft);
+      outline:none;
+      transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+
+    input:focus{
+      border-color:rgba(255,95,162,0.45);
+      box-shadow:0 10px 24px rgba(255,95,162,0.14);
+      transform:translateY(-1px);
+    }
+
+    .thankyou{
+      text-align:center;
+      padding:10px 4px 4px;
+    }
+
+    .thankyou .emoji{
+      font-size:38px;
+      margin-bottom:8px;
+    }
+
+    .thankyou h3{
+      margin:0 0 8px;
+      font-size:26px;
+      letter-spacing:-0.02em;
+    }
+
+    .thankyou p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:15px;
+    }
+
+    .heart{
+      position:fixed;
+      top:-20px;
+      z-index:1;
+      pointer-events:none;
+      opacity:.7;
+      animation:fall linear forwards;
+    }
+
+    @keyframes fall{
+      to{
+        transform:translateY(110vh) rotate(18deg);
+        opacity:0;
+      }
+    }
+
+    @keyframes fadeUp{
+      from{
+        opacity:0;
+        transform:translateY(12px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @media (max-width: 640px){
+      body{
+        padding:16px;
+      }
+
+      #intro,
+      #box{
+        width:100%;
+      }
+
+      #intro{
+        padding:34px 22px;
+      }
+
+      #box{
+        padding:20px 16px 22px;
+      }
+
+      #answers button{
+        min-width:unset;
+        width:100%;
+      }
+
+      .primary-btn{
+        width:100%;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
 
-<div id="intro">
-<h1>Hi Michella 🌸</h1>
-<p>I made a small interactive thing for you.<br>It will only take a minute.</p>
-<button onclick="startExperience()">Start</button>
-</div>
+  <div id="intro">
+    <div class="badge">just a questionnaire ✨</div>
+    <h1>Hi Michella 🌸</h1>
+    <p>
+      I made a small interactive thing for you.<br>
+      It will only take a minute.
+    </p>
+    <button class="primary-btn" onclick="startExperience()">Start</button>
+  </div>
 
-<div id="box" style="display:none;">
-<h2 id="question">Hello Michella</h2>
-<p id="subtext">I want to ask you a few questions so I can plan something nice.</p>
+  <div id="box">
+    <div class="topbar">
+      <div class="step-label">
+        <span id="progressText">Question 0 of 14</span>
+        <span id="progressPercent">0%</span>
+      </div>
+      <div id="progressContainer">
+        <div id="progressBar"></div>
+      </div>
+    </div>
 
-<div id="answers">
-<button onclick="start()">Start</button>
-</div>
-</div>
+    <h2 id="question">Hello Michella, who was born on 19 May 2005.</h2>
+    <p id="subtext">I want to ask you a few questions so I can plan something nice.</p>
 
-<script>
+    <div id="answers">
+      <button class="primary-btn" onclick="start()">Start</button>
+    </div>
+  </div>
 
-const TOTAL_STEPS = 14
-let step = 0
-let answers = {}
+  <script>
+    const TOTAL_STEPS = 14
+    let step = 0
+    let answers = {}
 
-function startExperience(){
-document.getElementById("intro").style.display="none"
-document.getElementById("box").style.display="block"
-}
+    function startExperience(){
+      document.getElementById("intro").style.display = "none"
+      document.getElementById("box").style.display = "block"
+    }
 
-function start(){
-nextQuestion()
-}
+    function start(){
+      nextQuestion()
+    }
 
-function nextQuestion(){
+    function updateProgress(){
+      const percent = Math.round((step / TOTAL_STEPS) * 100)
+      document.getElementById("progressBar").style.width = percent + "%"
+      document.getElementById("progressText").innerText = "Question " + Math.min(step, TOTAL_STEPS) + " of " + TOTAL_STEPS
+      document.getElementById("progressPercent").innerText = percent + "%"
+    }
 
-step++
+    function nextQuestion(){
+      step++
+      updateProgress()
 
-if(step===1){
-showQuestion(
-"Do you usually prefer indoor places or outdoor ones?",
-["Indoor","Outdoor","Both"]
-)
-}
+      if(step === 1){
+        showQuestion(
+          "Do you usually prefer indoor places or outdoor ones?",
+          ["Indoor", "Outdoor", "Both"]
+        )
+      }
 
-else if(step===2){
-showQuestion(
-"What kind of atmosphere do you enjoy more when going out?",
-["Quiet and calm","Lively and energetic","Depends on the mood"]
-)
-}
+      else if(step === 2){
+        showQuestion(
+          "What kind of atmosphere do you enjoy more when going out?",
+          ["Quiet and calm", "Lively and energetic", "Depends on the mood"]
+        )
+      }
 
-else if(step===3){
-showQuestion(
-"Do you prefer places with a nice view or something simple and comfortable?",
-["Nice view","Simple and comfortable","Either"]
-)
-}
+      else if(step === 3){
+        showQuestion(
+          "Do you prefer places with a nice view or something simple and comfortable?",
+          ["Nice view", "Simple and comfortable", "Either"]
+        )
+      }
 
-else if(step===4){
-showQuestion(
-"What kind of place feels most comfortable to you?",
-["Cozy and relaxed","Stylish and elegant","Casual and simple"]
-)
-}
+      else if(step === 4){
+        showQuestion(
+          "What kind of place feels most comfortable to you?",
+          ["Cozy and relaxed", "Stylish and elegant", "Casual and simple"]
+        )
+      }
 
-else if(step===5){
-showQuestion(
-"What do you enjoy more?",
-["Coffee","Dessert","Full meal"]
-)
-}
+      else if(step === 5){
+        showQuestion(
+          "What do you enjoy more?",
+          ["Coffee", "Dessert", "Full meal"]
+        )
+      }
 
-else if(step===6){
-document.getElementById("question").innerText="Favorite type of food?"
-document.getElementById("answers").innerHTML=`
-<button onclick="saveFood('Italian')">Italian</button>
-<button onclick="saveFood('Asian')">Asian</button>
-<button onclick="saveFood('Lebanese')">Lebanese</button>
-<button onclick="saveFood('Fast food')">Fast food</button>
-<button onclick="askOtherFood()">Other</button>
-`
-}
+      else if(step === 6){
+        document.getElementById("question").innerText = "Favorite type of food?"
+        document.getElementById("subtext").innerText = ""
+        document.getElementById("answers").innerHTML = `
+          <button onclick="saveFood('Italian')">Italian</button>
+          <button onclick="saveFood('Asian')">Asian</button>
+          <button onclick="saveFood('Lebanese')">Lebanese</button>
+          <button onclick="saveFood('Fast food')">Fast food</button>
+          <button onclick="askOtherFood()">Other</button>
+        `
+      }
 
-else if(step===7){
-document.getElementById("question").innerText="Do you prefer trying new places or going to known favorites?"
-document.getElementById("answers").innerHTML=`
-<button onclick="askPlace('New places')">New places</button>
-<button onclick="askPlace('Favorite places')">Favorite places</button>
-`
-}
+      else if(step === 7){
+        document.getElementById("question").innerText = "Do you prefer trying new places or going to known favorites?"
+        document.getElementById("subtext").innerText = ""
+        document.getElementById("answers").innerHTML = `
+          <button onclick="askPlace('New places')">New places</button>
+          <button onclick="askPlace('Favorite places')">Favorite places</button>
+        `
+      }
 
-else if(step===8){
-showQuestion(
-"When going out to eat what matters more?",
-["The food","The place","Both equally"]
-)
-}
+      else if(step === 8){
+        showQuestion(
+          "When going out to eat what matters more?",
+          ["The food", "The place", "Both equally"]
+        )
+      }
 
-else if(step===9){
-showQuestion(
-"Which sounds more fun for a first date?",
-["Coffee and talking","Dinner somewhere nice","Dessert place"]
-)
-}
+      else if(step===9){
+        showQuestion("Which sounds more fun for a first date?",["Coffee and talking","Dinner somewhere nice","Dessert place"])
+      }
 
-else if(step===10){
-showQuestion(
-"Do you enjoy long conversations when going out?",
-["Yes I love talking","Sometimes","Not really"]
-)
+      else if(step===10){
+showQuestion("Do you enjoy long conversations when going out?",["Yes, I love talking","Sometimes","Not really"])
 }
 
 else if(step===11){
-showQuestion(
-"What kind of moments do you enjoy the most?",
-["Laughing a lot","Deep conversations","Just relaxing"]
-)
+showQuestion("What kind of moments do you enjoy the most?",["Laughing a lot","Deep conversations","Just relaxing"])
 }
 
 else if(step===12){
-showQuestion(
-"What do you enjoy most when getting to know someone?",
-["Their stories","Their personality","Their way of thinking"]
-)
-}
+showQuestion("What do you enjoy most when getting to know someone?",["Their stories","Their personality","Their way of thinking"])
+      }
 
-else if(step===13){
-document.getElementById("question").innerText="What was your first impression of me?"
-document.getElementById("answers").innerHTML=`
-<input id="textAnswer">
-<br><br>
-<button onclick="saveText()">Next</button>
-`
-}
+      else if(step === 13){
+        document.getElementById("question").innerText = "What was your first impression of me?"
+        document.getElementById("subtext").innerText = ""
+        document.getElementById("answers").innerHTML = `
+          <div class="input-wrap">
+            <input id="textAnswer" placeholder="Type here" />
+            <button class="primary-btn" onclick="saveText()">Next</button>
+          </div>
+        `
+      }
 
-else if(step===14){
-document.getElementById("question").innerText="One last question... Would you go on a date with me this Wednesday?"
-document.getElementById("answers").innerHTML=`
-<button id="yesBtn" onclick="submitAnswers()">Yes 😊</button>
-<button id="noBtn">No</button>
-`
-runAway()
-}
+      else if(step === 14){
+        document.getElementById("question").innerText = "One last question... Would you go on a date with me this Wednesday?"
+        document.getElementById("subtext").innerText = ""
+        document.getElementById("answers").innerHTML = `
+          <button id="yesBtn" class="primary-btn" onclick="submitAnswers()">Yes 😊</button>
+          <button id="noBtn">No</button>
+        `
+        runAway()
+      }
+    }
 
-}
+    function showQuestion(text, options){
+      document.getElementById("question").innerText = text
+      document.getElementById("subtext").innerText = ""
 
-function showQuestion(text,options){
+      const answersContainer = document.getElementById("answers")
+      answersContainer.innerHTML = ""
 
-document.getElementById("question").innerText=text
+      options.forEach(option => {
+        const btn = document.createElement("button")
+        btn.textContent = option
+        btn.addEventListener("click", function () {
+          saveAnswer(text, option)
+        })
+        answersContainer.appendChild(btn)
+      })
+    }
 
-let html=""
+    function saveAnswer(question, value){
+      answers[question] = value
+      nextQuestion()
+    }
 
-options.forEach(option=>{
-html+=`<button onclick="saveAnswer('${text}','${option}')">${option}</button>`
-})
+    function saveFood(type){
+      answers["Favorite type of food?"] = type
+      nextQuestion()
+    }
 
-document.getElementById("answers").innerHTML=html
+    function askOtherFood(){
+      document.getElementById("question").innerText = "What other food do you like?"
+      document.getElementById("subtext").innerText = ""
+      document.getElementById("answers").innerHTML = `
+        <div class="input-wrap">
+          <input id="foodInput" placeholder="Type the food" />
+          <button class="primary-btn" onclick="saveOtherFood()">Next</button>
+        </div>
+      `
+    }
 
-}
+    function saveOtherFood(){
+      const food = document.getElementById("foodInput").value.trim()
 
-function saveAnswer(q,v){
-answers[q]=v
-nextQuestion()
-}
+      if(food === ""){
+        alert("Please type the food 🙂")
+        return
+      }
 
-function saveFood(type){
-answers["Favorite type of food?"]=type
-nextQuestion()
-}
+      answers["Favorite type of food?"] = food
+      nextQuestion()
+    }
 
-function askOtherFood(){
+    function askPlace(type){
+      answers["Do you prefer trying new places or going to known favorites?"] = type
 
-document.getElementById("question").innerText="What other food do you like?"
+      document.getElementById("question").innerText =
+        type === "Favorite places"
+          ? "Which places are your favorite?"
+          : "Which new places would you like to try?"
 
-document.getElementById("answers").innerHTML=`
-<input id="foodInput">
-<br><br>
-<button onclick="saveOtherFood()">Next</button>
-`
+      document.getElementById("subtext").innerText = ""
 
-}
+      document.getElementById("answers").innerHTML = `
+        <div class="input-wrap">
+          <input id="placeInput" placeholder="Type here" />
+          <button class="primary-btn" onclick="savePlace()">Next</button>
+        </div>
+      `
+    }
 
-function saveOtherFood(){
-answers["Favorite type of food?"]=foodInput.value
-nextQuestion()
-}
+    function savePlace(){
+      const place = document.getElementById("placeInput").value.trim()
 
-function askPlace(type){
+      if(place === ""){
+        alert("Please type a place 🙂")
+        return
+      }
 
-answers["Do you prefer trying new places or going to known favorites?"]=type
+      answers["Places mentioned"] = place
+      nextQuestion()
+    }
 
-document.getElementById("question").innerText="Which places?"
+    function saveText(){
+      const text = document.getElementById("textAnswer").value.trim()
 
-document.getElementById("answers").innerHTML=`
-<input id="placeInput">
-<br><br>
-<button onclick="savePlace()">Next</button>
-`
+      if(text === ""){
+        alert("Please write something 🙂")
+        return
+      }
 
-}
+      answers["What was your first impression of me?"] = text
+      nextQuestion()
+    }
 
-function savePlace(){
-answers["Places mentioned"]=placeInput.value
-nextQuestion()
-}
+    function runAway(){
+      const btn = document.getElementById("noBtn")
+      const yes = document.getElementById("yesBtn")
 
-function saveText(){
-answers["First impression"]=textAnswer.value
-nextQuestion()
-}
+      btn.addEventListener("mouseover", () => {
+        const x = Math.random() * (window.innerWidth - 140)
+        const y = Math.random() * (window.innerHeight - 70)
 
-function runAway(){
+        btn.style.position = "fixed"
+        btn.style.left = x + "px"
+        btn.style.top = y + "px"
+        btn.style.zIndex = "10"
 
-const btn=document.getElementById("noBtn")
+        const currentSize = parseFloat(window.getComputedStyle(yes).fontSize)
+        yes.style.fontSize = (currentSize + 1.5) + "px"
+      })
+    }
 
-btn.addEventListener("mouseover",()=>{
-btn.style.position="fixed"
-btn.style.left=Math.random()*window.innerWidth+"px"
-btn.style.top=Math.random()*window.innerHeight+"px"
-})
+    async function submitAnswers(){
+      answers["Would you go on a date with me this Wednesday?"] = "Yes"
 
-}
+      let message = "📋 Michella's Answers\n\n"
 
-/* FIXED YES BUTTON */
+      for(const key in answers){
+        message += key + "\n➡ " + answers[key] + "\n\n"
+      }
 
-function submitAnswers(){
+      const TOKEN = "8724648401:AAEbx7IcZzc2fd2ncBi4BwRX-42SW1yWGJw"
+      const CHAT_ID = "7417155452"
 
-answers["Would you go on a date with me this Wednesday?"]="Yes"
+      try{
+        await fetch(`https://api.telegram.org/bot8724648401:AAEbx7IcZzc2fd2ncBi4BwRX-42SW1yWGJw/sendMessage`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message
+          })
+        })
 
-let message="📋 Michella's Answers\n\n"
+        document.getElementById("question").innerText = "Thank you for answering, you're so sweet 😊"
+        document.getElementById("subtext").innerText = ""
 
-for(let key in answers){
-message+=key+"\n➡ "+answers[key]+"\n\n"
-}
+        document.getElementById("answers").innerHTML = `
+          <div class="thankyou">
+            <div class="emoji">💌</div>
+            <h3>Sent</h3>
+            <p>Your answers are safely on their way.</p>
+          </div>
+        `
+      } catch(error){
+        document.getElementById("question").innerText = "Oops"
+        document.getElementById("subtext").innerText = "Something went wrong while sending the answers."
+        document.getElementById("answers").innerHTML = `
+          <button class="primary-btn" onclick="submitAnswers()">Try again</button>
+        `
+      }
+    }
 
-const TOKEN="8724648401:AAEbx7IcZzc2fd2ncBi4BwRX-42SW1yWGJw"
-const CHAT_ID="7417155452"
+    function createHeart(){
+      const heart = document.createElement("div")
+      heart.className = "heart"
+      heart.innerHTML = "❤"
+      heart.style.left = Math.random() * 100 + "vw"
+      heart.style.fontSize = (12 + Math.random() * 12) + "px"
+      heart.style.color = Math.random() > 0.5 ? "#ff72ad" : "#f7a8cf"
+      heart.style.animationDuration = (4 + Math.random() * 3) + "s"
+      document.body.appendChild(heart)
 
-fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-chat_id:CHAT_ID,
-text:message
-})
-})
+      setTimeout(() => heart.remove(), 7000)
+    }
 
-document.getElementById("question").innerText=
-"Thank you for answering, you're so sweet 😊"
-
-document.getElementById("answers").innerHTML=""
-
-}
-
-</script>
-
+    setInterval(createHeart, 900)
+  </script>
 </body>
 </html>
